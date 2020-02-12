@@ -9,6 +9,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run a one-line script
       run: echo Hello, world!
+    - name: prove the secret
+      env:
+        da_secret: ${{ secrets.A_TEST_SECRET }}
+      run: |
+        echo da secret is $da_secret
+        echo -n $da_secret | shasum
     - name: Run a multi-line script
       run: |
         echo Add other actions to build,
