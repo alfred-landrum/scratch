@@ -11,7 +11,7 @@ jobs:
     - name: make release asserts
       run: ./make-release-assets.sh
     - name: upload release assets
-      uses: svenstaro/upload-release-action@v1.1.0
+      uses: svenstaro/upload-release-action@1.1.0
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ github.ref }}
