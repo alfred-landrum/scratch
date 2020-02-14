@@ -1,21 +1,20 @@
-name: CI
-
-on: [push]
-
+name: release_test
+on:
+  push:
+    tags:
+    - 'v*'
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: prove the secret
-      env:
-        da_secret: ${{ secrets.A_TEST_SECRET }}
-      run: |
-        echo da secret is $da_secret
-        echo -n $da_secret | shasum
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+    - name: make release asserts
+      run: ./make-release-assets.sh
+    - name: upload release assets
+      uses: svenstaro/upload-release-action@v1.1.0
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ github.ref }}
+        file: dist/release/*
+        file_glob: true
+        overwrite: true
